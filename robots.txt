@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://bikin-web.pages.dev/sitemap.xml
+Sitemap: https://bikin-web-three.vercel.app/sitemap.xml
