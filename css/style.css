@@ -1,0 +1,182 @@
+/* =========================================
+   1. CSS VARIABLES (Fallback & Native CSS)
+   ========================================= */
+:root {
+  --ink: #14171f;
+  --paper: #eef1f6;
+  --paper-dim: #e2e6ee;
+  --line: #c7ceda;
+  --blue: #3454ff;
+  --blue-dim: #2a3fcc;
+  --amber: #f5a623;
+  --text: #1b1e27;
+  --text-mute: #5a6070;
+}
+
+/* =========================================
+   2. UTILITIES (Glassmorphism & Scroll)
+   ========================================= */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(16px) saturate(160%);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 0 8px 32px rgba(20, 23, 31, 0.08);
+}
+
+.glass-panel-dark {
+  background: rgba(20, 23, 31, 0.85);
+  backdrop-filter: blur(16px) saturate(160%);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* =========================================
+   3. ANIMATIONS (Morph & Scroll Reveal)
+   ========================================= */
+
+/* Animasi Cross-fade untuk kotak Blueprint ke Real UI (Looping 8 Detik) */
+@keyframes blueprintFade {
+  0%, 15%, 85%, 100% { 
+    opacity: 1; 
+    transform: scale(1) translateY(0); 
+  }
+  35%, 65% { 
+    opacity: 0; 
+    transform: scale(0.95) translateY(10px); 
+  }
+}
+
+@keyframes realFade {
+  0%, 15%, 85%, 100% { 
+    opacity: 0; 
+    transform: scale(0.95) translateY(10px); 
+  }
+  35%, 65% { 
+    opacity: 1; 
+    transform: scale(1) translateY(0); 
+  }
+}
+
+.animate-blueprint {
+  animation: blueprintFade 8s ease-in-out infinite;
+}
+
+.animate-real {
+  animation: realFade 8s ease-in-out infinite;
+}
+
+/* Animasi Accordion Menggunakan CSS Grid */
+.faq-content {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.3s ease-in-out;
+}
+
+/* Saat class .is-open aktif di .faq-item */
+.faq-item.is-open .faq-content {
+  grid-template-rows: 1fr;
+}
+
+.faq-item.is-open .faq-icon {
+  transform: rotate(180deg);
+}
+
+.faq-item.is-open .faq-title {
+  color: var(--blue);
+}
+
+.faq-item.is-open {
+  border-color: rgba(52, 84, 255, 0.4);
+}
+
+/* =========================================
+   MARQUEE ANIMATION (Stack Tech)
+   ========================================= */
+.marquee-viewport {
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
+  mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
+}
+.marquee-track {
+  display: flex;
+  gap: 12px;
+  width: max-content;
+  animation: marquee-scroll 28s linear infinite;
+}
+.marquee-viewport:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+@keyframes marquee-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* Fallback: Matikan animasi & jadikan wrap biasa jika user mengaktifkan reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .marquee-viewport {
+    -webkit-mask-image: none;
+    mask-image: none;
+    overflow: visible;
+  }
+  .marquee-track { 
+    animation: none; 
+    flex-wrap: wrap; 
+    justify-content: center;
+    width: 100%; 
+  }
+  .tech-items {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+/* =========================================
+   HERO MORPH ANIMATION (5 STAGES, 20s LOOP)
+   ========================================= */
+.stage-1 { animation: stage1Fade 20s ease-in-out infinite; }
+.stage-2 { animation: stage2Fade 20s ease-in-out infinite; opacity: 0; }
+.stage-3 { animation: stage3Fade 20s ease-in-out infinite; opacity: 0; }
+.stage-4 { animation: stage4Fade 20s ease-in-out infinite; opacity: 0; }
+.stage-5 { animation: stage5Fade 20s ease-in-out infinite; opacity: 0; }
+
+@keyframes stage1Fade {
+  0%, 16% { opacity: 1; transform: scale(1) translateY(0); }
+  20%, 96% { opacity: 0; transform: scale(0.95) translateY(10px); }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+@keyframes stage2Fade {
+  0%, 16% { opacity: 0; transform: scale(0.95) translateY(10px); }
+  20%, 36% { opacity: 1; transform: scale(1) translateY(0); }
+  40%, 100% { opacity: 0; transform: scale(0.95) translateY(10px); }
+}
+@keyframes stage3Fade {
+  0%, 36% { opacity: 0; transform: scale(0.95) translateY(10px); }
+  40%, 56% { opacity: 1; transform: scale(1) translateY(0); }
+  60%, 100% { opacity: 0; transform: scale(0.95) translateY(10px); }
+}
+@keyframes stage4Fade {
+  0%, 56% { opacity: 0; transform: scale(0.95) translateY(10px); }
+  60%, 76% { opacity: 1; transform: scale(1) translateY(0); }
+  80%, 100% { opacity: 0; transform: scale(0.95) translateY(10px); }
+}
+@keyframes stage5Fade {
+  0%, 76% { opacity: 0; transform: scale(0.95) translateY(10px); }
+  80%, 96% { opacity: 1; transform: scale(1) translateY(0); }
+  100% { opacity: 0; transform: scale(0.95) translateY(10px); }
+}
+
+/* Fallback: Jika pengguna mengaktifkan mode reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .stage-1, .stage-2, .stage-3, .stage-4, .stage-5 {
+    animation: none !important;
+  }
+  .stage-1, .stage-2, .stage-3, .stage-4 {
+    display: none !important;
+  }
+  .stage-5 {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
